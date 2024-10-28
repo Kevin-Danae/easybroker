@@ -1,24 +1,22 @@
-# README
+# Ejercicio de easybroker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Hola que tal! Les dejo de este lado mi ejercicio para la postulacion en su vacante como JR developer.
+Mi nombre es Kevin Aguilera desarrollador web.
 
-Things you may want to cover:
+## Instalacion
+Esta aplicacion se hizo sobre rails 7.2.1
 
-* Ruby version
+Correr el comando
+'bundle install'
 
-* System dependencies
+Levantar el servidos con el comando
+'rails s'
 
-* Configuration
+y hacer la pegada localmente http://127.0.0.1:3000/properties desde el navegador.
 
-* Database creation
+## Test
+Se agrego un test unitario que testea unicamente que retorne los valores esperados
+que en este caso son los titulos de las propiedad y en caso de 400 se espera que regrese un 400.
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Comentarios
+Cualquier duda estoy a su disposicion.

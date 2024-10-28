@@ -16,7 +16,8 @@ class PropertiesController < ApplicationController
     response = http.request(request)
 
     if !response.is_a?(Net::HTTPSuccess)
-      render json: response.value
+      render json: { error: JSON.parse(response.body)["error"] }, status: response.code.to_i
+      return
     end
 
     titleProperties = titleMap(response)
