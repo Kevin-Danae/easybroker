@@ -43,5 +43,4 @@ end
 group :test do
   gem "webmock"
   gem "mutex_m"
-  gem "fiddle"
 end
