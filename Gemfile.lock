@@ -95,7 +95,6 @@ GEM
       reline (>= 0.3.8)
     drb (2.2.1)
     erubi (1.13.0)
-    fiddle (1.1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.1)
@@ -247,7 +246,6 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
-  fiddle
   mutex_m
   puma (>= 5.0)
   rails (~> 7.2.2)
