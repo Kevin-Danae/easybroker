@@ -3,32 +3,39 @@ require "net/http"
 require "json"
 
 class PropertiesController < ApplicationController
-  def index
-    url = URI("https://api.stagingeb.com/v1/properties?page=1&limit=20")
+  API_URL = "https://api.stagingeb.com/v1/properties?page=1&limit=20"
+  AUTH_HEADER = "l7u502p8v46ba3ppgvj5y2aad50lb9"
 
+  def index
+    response = fetch_properties
+
+    unless response.is_a?(Net::HTTPSuccess)
+      render_error(response)
+      return
+    end
+
+    render json: parse_titles(response)
+  end
+
+  def fetch_properties
+    url = URI(API_URL)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
 
     request = Net::HTTP::Get.new(url)
     request["accept"] = "application/json"
-    request["X-Authorization"] = "l7u502p8v46ba3ppgvj5y2aad50lb9"
+    request["X-Authorization"] = AUTH_HEADER
 
-    response = http.request(request)
-
-    if !response.is_a?(Net::HTTPSuccess)
-      render json: { error: JSON.parse(response.body)["error"] }, status: response.code.to_i
-      return
-    end
-
-    titleProperties = titleMap(response)
-    render json: titleProperties
+    http.request(request)
   end
 
-  private
-  def titleMap(response)
-    result = JSON.parse(response.body)["content"]
-    titleProperties = result.map { |property| property["title"] }
+  def render_error(response)
+    error_message = JSON.parse(response.body)["error"]
+    render json: { error: error_message }, status: response.code.to_i
+  end
 
-    titleProperties
+  def parse_titles(response)
+    results = JSON.parse(response.body)["content"]
+    results.map { |property| property["title"] }
   end
 end
