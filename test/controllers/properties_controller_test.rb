@@ -31,6 +31,16 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
       )
   end
 
+  def stub_401_error_response
+    stub_request(:get, API_URL)
+      .with(headers: API_HEADERS)
+      .to_return(
+        status: 401,
+        body: { "error" => "Your API key is invalid" }.to_json,
+        headers: { "Content-Type" => "application/json" }
+      )
+  end
+
   test "should_return_titles_from_api_response" do
     stub_successful_response
 
@@ -45,5 +55,13 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
     get properties_url
     assert_response :bad_request
     assert_equal "Bad Request", JSON.parse(response.body)["error"]
+  end
+
+  test "should_handle_401_error_response_from_api" do
+    stub_401_error_response
+
+    get properties_url
+    assert_response :unauthorized
+    assert_equal "Your API key is invalid", JSON.parse(response.body)["error"]
   end
 end
